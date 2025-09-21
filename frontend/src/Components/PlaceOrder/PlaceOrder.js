@@ -199,9 +199,7 @@ function PlaceOrder(props) {
                                 <label><input type="checkbox" ></input>Apple 20W USB Power Adapter</label>
                             </div>
                             <div > 
-                                
                                 <button className="placeorder__button addtocart" onClick={addTOCart}>Add to Cart</button>
-                                
                                 <Link to="/checkout">
                                     <button className="placeorder__button buynow">Buy Now</button>
                                 </Link>

@@ -1,7 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { CartContext } from '../CartContext';
 import './NavBar.css';
 
 class NavBar extends Component {
+    static contextType = CartContext;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -24,18 +28,22 @@ class NavBar extends Component {
     }
 
     render() {
+        let { item, size, increment } = this.context;
+
         return (
             <div>
                 <div className='navBar_component'>
-                    <div className='navBar_logo_section'>
-                        <div className='navBar_logo'>E-commerce</div>
-                    </div>
+                    <Link to="/">
+                        <div className='navBar_logo_section'>
+                            <div className='navBar_logo'>E-commerce</div>
+                        </div>
+                    </Link>
 
                     <div className='navBar_location_section'>
                         <div className='navBar_location_icon'></div>
                         <div className='navBar_location_text'>
                             <div className='location_line1'>Deliver to</div>
-                            <div className='location_line2'>Ireland</div>
+                            <div className='location_line2'>Dublin, Ireland</div>
                         </div>
                     </div>
 
@@ -51,6 +59,7 @@ class NavBar extends Component {
                                 <option value="Books">Books</option>
                                 <option value="Clothing">Clothing</option>
                                 <option value="Home">Home & Kitchen</option>
+                                <option value="Beauty">Beauty</option>
                             </select>
                             <input 
                                 type="text"
@@ -83,11 +92,13 @@ class NavBar extends Component {
                         <div className='orders_line2'>& Orders</div>
                     </div>
 
-                    <div className='navBar_cart_section'>
-                        <div className='navBar_cart_icon'></div>
-                        <div className='navBar_cart_count'>0</div>
-                        <div className='navBar_cart_text'>Cart</div>
-                    </div>
+                    <Link to="/checkout">
+                        <div className='navBar_cart_section'>
+                            <div className='navBar_cart_icon'></div>
+                            <div className='navBar_cart_count'>{size}</div>
+                            <div className='navBar_cart_text'>Cart</div>
+                        </div>
+                    </Link>
                 </div>
 
                 <div className='navBar_secondary'>
@@ -96,7 +107,9 @@ class NavBar extends Component {
                         All
                     </div>
                     <div className='secondary_menu_item'>Best Sellers</div>
-                    <div className='secondary_menu_item'>Mobiles</div>
+                    <Link to="/display">
+                        <div className='secondary_menu_item'>Mobiles</div>
+                    </Link>
                     <div className='secondary_menu_item'>Amazon Pay</div>
                     <div className='secondary_menu_item'>Fashion</div>
                     <div className='secondary_menu_item'>Electronics</div>
@@ -113,4 +126,5 @@ class NavBar extends Component {
         );
     }
 }
+
 export default NavBar;
