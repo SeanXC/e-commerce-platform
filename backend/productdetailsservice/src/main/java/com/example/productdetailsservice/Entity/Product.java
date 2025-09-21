@@ -9,12 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "products")
 public class Product {
     @Id
-    private BigInteger id;
-    private UUID productID;
-    private String name;
-    private double price;
-    private String rating;
-    private String imageURL;
+    public BigInteger id;
+    public UUID productID;
+    public String name;
+    public double price;
+    public String rating;
+    public String imageURL;
 
     public Product() {
     }
