@@ -29,4 +29,9 @@ public class AddToCartController {
     public CartDetails showItems(@PathVariable UUID userId) {
         return addToCartService.displayAllProductsInCart(userId);
     }
+    
+    @PostMapping("/clear/{userId}")
+    public void clearCart(@PathVariable UUID userId) {
+        addToCartService.clearCart(userId);
+    }
 }

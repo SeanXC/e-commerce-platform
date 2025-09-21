@@ -38,5 +38,10 @@ public class AddToCartService {
         }
         cartDetails.setList(productList);
         return cartDetails;
-    } 
+    }
+    
+    public void clearCart(UUID userId) {
+        ArrayList<Cart> cartItems = addToCartRepo.findByUserId(userId);
+        addToCartRepo.deleteAll(cartItems);
+    }
 }
