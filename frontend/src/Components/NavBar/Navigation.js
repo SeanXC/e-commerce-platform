@@ -82,10 +82,12 @@ class NavBar extends Component {
                         </select>
                     </div>
 
-                    <div className='navBar_account_section'>
-                        <div className='account_line1'>Hello, sign in</div>
-                        <div className='account_line2'>Account & Lists</div>
-                    </div>
+                    <Link to="/profile">
+                        <div className='navBar_account_section'>
+                            <div className='account_line1'>Hello, User</div>
+                            <div className='account_line2'>Account & Profile</div>
+                        </div>
+                    </Link>
 
                     <div className='navBar_orders_section'>
                         <div className='orders_line1'>Returns</div>
