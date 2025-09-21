@@ -1,0 +1,21 @@
+.advistisementOne_main {
+    height: 420px;
+    width: 335px;
+    background-color: #fff;
+    margin: 5px;
+}
+
+.advistisementOne_header {
+    font-size: 21px;
+    line-height: 27px;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.advistisementOne_body {
+    padding-left: 15px;
+}
+
+.advistisementOne_footer {
+    padding: 15px;
+}

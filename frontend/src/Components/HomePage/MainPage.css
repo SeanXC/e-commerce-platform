@@ -1,0 +1,8 @@
+.main_page {
+    width: 100%;
+    height: calc(100vh - 99px);
+    background: url('https://ik.imagekit.io/kci9fh3yl/bigimage1.jpg?updatedAt=1758467022113') no-repeat center center;
+    background-size: cover;
+    background-color: #fff;
+    position: relative;
+}

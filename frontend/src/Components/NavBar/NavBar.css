@@ -131,15 +131,10 @@
 .search_icon {
     width: 21px;
     height: 21px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    color: #131A22;
-}
-
-.search_icon::before {
-    content: "🔍";
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjEiIHZpZXdCb3g9IjAgMCAyMSAyMSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTkgMkM1LjEzNCAyIDIgNS4xMzQgMiA5QzIgMTIuODY2IDUuMTM0IDE2IDkgMTZDMTAuODQ4IDE2IDEyLjUxOCAxNS4yNTIgMTMuNzMzIDEzLjk5M0wxOC4yOTMgMTguNTUzQzE4LjY4MyAxOC45NDMgMTkuMzE3IDE4Ljk0MyAxOS43MDcgMTguNTUzQzIwLjA5NyAxOC4xNjMgMjAuMDk3IDE3LjUyOSAxOS43MDcgMTcuMTM5TDE0LjE0NyAxMS41NzlDMTUuNDA2IDEwLjM2NCAxNiA4LjY5NiAxNiA3QzE2IDMuMTM0IDEyLjg2NiAwIDkgMFpNOSA0QzExLjc2MSA0IDE0IDYuMjM5IDE0IDlDMTQgMTEuNzYxIDExLjc2MSAxNCA5IDE0QzYuMjM5IDE0IDQgMTEuNzYxIDQgOUM0IDYuMjM5IDYuMjM5IDQgOSA0WiIgZmlsbD0iIzEzMUEyMiIvPgo8L3N2Zz4=');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18px 18px;
 }
 
 .navBar_language_section {
