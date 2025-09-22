@@ -4,8 +4,9 @@ import NavBar from './Components/NavBar/Navigation';
 import DisplayContent from './Components/DisplayContent/DisplayContent';
 import PlaceOrder from './Components/PlaceOrder/PlaceOrder';
 import Checkout from './Components/Checkout/Checkout';
+import UserProfile from './Components/User/UserProfile';
 import CartContextProvider from './Components/CartContext';
-import { BrowserRouter as Router, Routes, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/display" element={<DisplayContent />} />
                 <Route path="/order/:id" element={<PlaceOrder />} />
                 <Route path="/checkout" element={<Checkout />} />
+                <Route path="/profile" element={<UserProfile />} />
                 <Route path="/" element={<MainPage />} />
               </Routes>
         </CartContextProvider>
