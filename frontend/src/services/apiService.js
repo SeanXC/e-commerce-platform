@@ -1,7 +1,7 @@
 const API_BASE_URLS = {
-  PRODUCTS: '/api/products',
-  CART: '/api/cart',
-  USER: '/api/user'
+  PRODUCTS: 'http://localhost:8082/ecommerce/products',
+  CART: 'http://localhost:8081/ecommerce/addToCart',
+  USER: 'http://localhost:8083/ecommerce/user'
 };
 
 class ApiService {

@@ -34,7 +34,7 @@ function PlaceOrder(props) {
                 } else {
                     const defaultProducts = [
             {
-                id: 123456543,
+                id: "550e8400-e29b-41d4-a716-446655440001",
                 name: "New Apple iPhone 10",
                 rating: "4.2",
                 review: "1000",
@@ -53,7 +53,7 @@ function PlaceOrder(props) {
                 ],
             },
             {
-                id: 54342265,
+                id: "550e8400-e29b-41d4-a716-446655440002",
                 name: "New Apple iPhone 11",
                 rating: "4.5",
                 review: "1000",
@@ -72,7 +72,7 @@ function PlaceOrder(props) {
                 ],
             },
             {
-                id: 123453456543,
+                id: "550e8400-e29b-41d4-a716-446655440003",
                 name: "iPhone 12",
                 rating: "4.6",
                 review: "1000",
@@ -92,7 +92,7 @@ function PlaceOrder(props) {
                 ],
             },
             {
-                id: 12344545456543,
+                id: "550e8400-e29b-41d4-a716-446655440004",
                 name: "iPhone 13",
                 rating: "4.7",
                 review: "1000",
@@ -112,7 +112,7 @@ function PlaceOrder(props) {
                 ],
             },
             {
-                id: 123465656543,
+                id: "550e8400-e29b-41d4-a716-446655440005",
                 name: "iPhone 12 Pro",
                 rating: "4.6",
                 review: "1000",
@@ -132,7 +132,7 @@ function PlaceOrder(props) {
                 ],
             },
             {
-                id: 2356346363,
+                id: "550e8400-e29b-41d4-a716-446655440006",
                 name: "iPhone 13 Pro",
                 rating: "4.8",
                 review: "1000",
@@ -165,9 +165,9 @@ function PlaceOrder(props) {
                 setError('Unable to load product details, please try again later');
                 
                 const defaultProducts = [
-                    {
-                        id: 123456543,
-                        name: "New Apple iPhone 10",
+                     {
+                         id: "550e8400-e29b-41d4-a716-446655440001",
+                         name: "New Apple iPhone 10",
                         rating: "4.2",
                         review: "1000",
                         emi: "25",
