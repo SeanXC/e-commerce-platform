@@ -1,7 +1,16 @@
+const isProduction = process.env.NODE_ENV === 'production';
+const PRODUCTION_BACKEND_BASE = 'https://your-backend-domain.herokuapp.com';
+
 const API_BASE_URLS = {
-  PRODUCTS: 'http://localhost:8082/ecommerce/products',
-  CART: 'http://localhost:8081/ecommerce/addToCart',
-  USER: 'http://localhost:8083/ecommerce/user'
+  PRODUCTS: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/products`
+    : (process.env.REACT_APP_PRODUCTS_API_URL || 'http://localhost:8082/ecommerce/products'),
+  CART: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/addToCart`
+    : (process.env.REACT_APP_CART_API_URL || 'http://localhost:8081/ecommerce/addToCart'),
+  USER: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/user`
+    : (process.env.REACT_APP_USER_API_URL || 'http://localhost:8083/ecommerce/user')
 };
 
 class ApiService {
