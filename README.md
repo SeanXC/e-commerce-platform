@@ -1,12 +1,18 @@
 # Full-Stack E-commerce Platform
 
-A modern, scalable e-commerce platform built with React frontend and Spring Boot microservices architecture, featuring Docker containerization and seamless Heroku deployment with real-time shopping cart management.
+A modern, scalable e-commerce platform built with React frontend and Spring Boot microservices architecture, featuring Docker containerization and automated deployment pipeline with real-time shopping cart management.
 
 ---
 
 ## Preview
 ![App Screenshot](./screenshots/demo.png)
-*Modern, responsive e-commerce interface with containerized deployment pipeline*
+
+<p align="center">
+  <img src="./screenshots/cart.png" width="300" alt="Shopping Cart" style="margin: 0 10px;" />
+  <img src="./screenshots/order.png" width="300" alt="Order Management" style="margin: 0 10px;" />
+</p>
+
+*Modern, responsive e-commerce interface with automated deployment pipeline*
 
 ---
 
@@ -15,7 +21,7 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 - Built a modern React SPA frontend with Material-UI, React Router, and Context API for real-time cart updates and product browsing  
 - Integrated MySQL (cart & user data) and MongoDB (product catalog) with Spring Data JPA and MongoDB document storage  
 - Implemented comprehensive unit and integration testing using JUnit, Mockito, Jest, and React Testing Library  
-- Automated deployment pipeline with Docker Compose and Heroku, enabling one-click cloud deployment with CI/CD  
+- Automated deployment pipeline with Docker containerization, frontend deployed to Vercel, backend to Render, and database on Railway  
 
 ---
 
@@ -38,8 +44,9 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 
 **DevOps & Deployment:**  
 - Docker & Docker Compose  
-- Heroku Container Registry  
-- Heroku Postgres & MongoDB Atlas  
+- Frontend: Vercel deployment  
+- Backend: Automated Docker image build & deployment to Render  
+- Database: Railway (MySQL & MongoDB)  
 - Automated CI/CD pipeline  
 
 ---
@@ -47,29 +54,17 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 ## Project Structure
 ```
 e-commerce-platform/
-├── backend/ # Backend Microservices
-│ ├── productdetailsservice/ # Product Service (MongoDB)
-│ ├── addToCart/ # Cart Service (MySQL)
-│ ├── usermetadata/ # User Service (MySQL)
-│ ├── run-backend-tests.bat # Backend Test Scripts
-│ └── run-basic-backend-tests.bat
-├── frontend/ # React Frontend Application
-│ ├── src/Components/ # React Components
-│ │ ├── tests/ # Component Tests
-│ │ ├── HomePage/ # Home Page Components
-│ │ ├── NavBar/ # Navigation Bar
-│ │ ├── DisplayContent/ # Product Display
-│ │ ├── Checkout/ # Checkout Flow
-│ │ └── User/ # User Management
-│ ├── services/ # API Service Layer
-│ ├── public/ # Static Assets
-│ ├── Dockerfile # Frontend Containerization
-│ └── package.json # Frontend Dependencies
-├── docker-compose.yml # Container Orchestration
-├── docker-compose.heroku.yml # Heroku-optimized Compose
-├── deploy-heroku.sh # Heroku Deployment Script
-├── start-all.bat # One-Click Startup Script
-└── README.md # Project Documentation
+├── backend/                    # Spring Boot Microservices
+│   ├── productdetailsservice/  # Product Service (MongoDB)
+│   ├── addToCart/             # Cart Service (MySQL)  
+│   ├── usermetadata/          # User Service (MySQL)
+│   └── docker-compose.yml    # Backend Services Setup
+├── frontend/                  # React Frontend App
+│   ├── src/Components/        # React Components
+│   ├── src/services/         # API Services
+│   └── package.json          # Dependencies
+├── screenshots/              # App Screenshots
+└── README.md                # Documentation
 ```
 
 
@@ -81,10 +76,16 @@ e-commerce-platform/
 git clone https://github.com/YourUsername/e-commerce-platform.git
 cd e-commerce-platform
 
-# 2. Start with Docker Compose (Recommended)
+# 2. Start backend services with Docker Compose (Recommended)
+cd backend
 docker-compose up --build -d
 
-# 3. Access the application
+# 3. Start frontend separately
+cd ../frontend
+npm install
+npm start
+
+# 4. Access the application
 # Frontend: http://localhost:3000
 # Product API: http://localhost:8082/ecommerce/products/getALlProducts  
 # Cart API: http://localhost:8081/ecommerce/addToCart
@@ -101,7 +102,7 @@ This full-stack e-commerce platform project demonstrates the following skills:
 - Modern Frontend Development with React Hooks, Context API, and Material-UI
 - Database Integration with MySQL transactional processing and MongoDB document storage
 - Test-Driven Development using JUnit, Mockito, Jest, and React Testing Library
-- Containerization & Deployment with Docker, Docker Compose, and Heroku cloud platform
+- Containerization & Deployment with Docker, automated deployment to Vercel (frontend), Render (backend), and Railway (database)
 
 ---
 
