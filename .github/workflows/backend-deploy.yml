@@ -7,6 +7,23 @@ on:
 jobs:
   test-build-deploy:
     runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: testdb
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: --health-cmd="mongosh --eval 'db.runCommand({ping:1})'" --health-interval=10s --health-timeout=5s --health-retries=3
+    
     steps:
       - uses: actions/checkout@v4
       
@@ -25,9 +42,9 @@ jobs:
           chmod +x backend/addToCart/mvnw
           chmod +x backend/productdetailsservice/mvnw
           chmod +x backend/usermetadata/mvnw
-          cd backend/addToCart && ./mvnw test && cd ../..
-          cd backend/productdetailsservice && ./mvnw test && cd ../..
-          cd backend/usermetadata && ./mvnw test && cd ../..  
+          cd backend/addToCart && ./mvnw test -Dspring.profiles.active=test && cd ../..
+          cd backend/productdetailsservice && ./mvnw test -Dspring.profiles.active=test && cd ../..
+          cd backend/usermetadata && ./mvnw test -Dspring.profiles.active=test && cd ../..  
           
       - uses: docker/login-action@v3
         with:
