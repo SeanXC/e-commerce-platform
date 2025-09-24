@@ -13,5 +13,5 @@ import com.example.productdetailsservice.Entity.Product;
 public interface ProductRepo extends MongoRepository<Product, BigInteger> {
     Product save(Product product);
     ArrayList<Product> findAll();
-    Product findByProductID(UUID productId);
+    Product findByProductID(String productId);
 }

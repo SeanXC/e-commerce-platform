@@ -16,12 +16,12 @@ public class ProductService {
     ProductRepo productRepo;
 
     public Product saveDataToDB(Product product) {
-        product.setProductID(UUID.randomUUID());
+        product.setProductID(UUID.randomUUID().toString());
         return productRepo.save(product);
     }
 
     public Product updateDataToDB(Product product) {
-        product.setProductID(UUID.randomUUID());
+        product.setProductID(UUID.randomUUID().toString());
         return productRepo.save(product);
     }
 
@@ -29,7 +29,7 @@ public class ProductService {
         return (ArrayList<Product>) productRepo.findAll();
     }
     
-        public Product getproductDetails(UUID productID) {
+    public Product getproductDetails(String productID) {
         return productRepo.findByProductID(productID);
     }
 }

@@ -35,11 +35,46 @@ class ApiService {
   }
 
   async getAllProducts() {
-    return this.request(`${API_BASE_URLS.PRODUCTS}/getALlProducts`);
+    const products = await this.request(`${API_BASE_URLS.PRODUCTS}/getALlProducts`);
+    
+    if (products && Array.isArray(products)) {
+      return products.map(product => ({
+        id: product.productID || product.id,
+        name: product.name,
+        price: product.price,
+        rating: product.rating,
+        image: product.imageURL || product.image
+      }));
+    }
+    
+    return products;
   }
 
   async getProductById(productId) {
-    return this.request(`${API_BASE_URLS.PRODUCTS}/search/${productId}`);
+    const product = await this.request(`${API_BASE_URLS.PRODUCTS}/search/${productId}`);
+    
+    if (product) {
+      return {
+        id: product.productID || product.id,
+        name: product.name,
+        price: product.price,
+        rating: product.rating,
+        image: product.imageURL || product.image,
+        review: "1000",
+        emi: "25",
+        delivery: "Wednesday, Aug 18",
+        status: "In stock",
+        soldby: "Irish Electronics",
+        about: [
+          "High-quality smartphone with advanced features",
+          "Water and dust resistant design",
+          "Advanced camera system with multiple lenses",
+          "Secure authentication and privacy features"
+        ]
+      };
+    }
+    
+    return product;
   }
 
   async saveProduct(productData) {
