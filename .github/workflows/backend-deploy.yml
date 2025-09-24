@@ -1,49 +1,45 @@
-name: Backend CI/CD to Render
+name: Backend CI/CD
 
 on:
   push:
-    branches:
-      - main
-      - deploy-setup
-    paths:
-      - 'backend/**'
+    branches: [main]
+    paths: ['backend/**']
 
 jobs:
-  build-and-deploy:
+  test-build-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          
+      - name: Test Backend Services
+        run: |
+          cd backend/addToCart && ./mvnw test && cd ../..
+          cd backend/productdetailsservice && ./mvnw test && cd ../..
+          cd backend/usermetadata && ./mvnw test && cd ../..
+          
+      - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and Push AddToCart Service
+          
+      - name: Build and Deploy
         run: |
           cd backend/addToCart
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:latest
-          cd ../..
-
-      - name: Build and Push ProductDetails Service
-        run: |
-          cd backend/productdetailsservice
+          cd ../productdetailsservice
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:latest
-          cd ../..
-
-      - name: Build and Push UserMetadata Service
-        run: |
-          cd backend/usermetadata
+          cd ../usermetadata
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:latest .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:latest
-          cd ../..
-
-      - name: Deployment notification
-        run: |
-          echo "All microservices built and pushed to Docker Hub successfully!"
-          echo "Render will automatically detect and deploy the new images"
