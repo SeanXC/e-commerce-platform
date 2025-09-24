@@ -112,7 +112,7 @@ class NavBar extends Component {
                     <Link to="/display">
                         <div className='secondary_menu_item'>Mobiles</div>
                     </Link>
-                    <div className='secondary_menu_item'>Amazon Pay</div>
+                    <div className='secondary_menu_item'>Stripe Pay</div>
                     <div className='secondary_menu_item'>Fashion</div>
                     <div className='secondary_menu_item'>Electronics</div>
                     <div className='secondary_menu_item'>

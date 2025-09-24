@@ -1,0 +1,102 @@
+version: "3.8"
+services:
+  addtocart-service:
+    build: ./addToCart
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-addtocart:3306/addToCartDB?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_CLOUD_COMPATIBILITY_VERIFIER_ENABLED: false
+    depends_on:
+      mysql-addtocart:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+
+  productdetails-service:
+    build: ./productdetailsservice
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb-products:27017/productDB
+      SPRING_DATA_MONGODB_DATABASE: productDB
+    depends_on:
+      mongodb-products:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+
+  usermetadata-service:
+    build: ./usermetadata
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-usermetadata:3306/usermetadataDB?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      mysql-usermetadata:
+        condition: service_healthy
+    networks:
+      - ecommerce-network
+
+  mysql-addtocart:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: addToCartDB
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_addtocart_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - ecommerce-network
+
+  mysql-usermetadata:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: usermetadataDB
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_usermetadata_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    networks:
+      - ecommerce-network
+
+  mongodb-products:
+    image: mongo:6
+    environment:
+      MONGO_INITDB_DATABASE: productDB
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_products_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/productDB --quiet
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - ecommerce-network
+
+volumes:
+  mysql_addtocart_data:
+  mysql_usermetadata_data:
+  mongodb_products_data:
+
+networks:
+  ecommerce-network:
+    driver: bridge
