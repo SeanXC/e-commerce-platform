@@ -1,7 +1,16 @@
+const isProduction = process.env.NODE_ENV === 'production';
+const PRODUCTION_BACKEND_BASE = 'https://your-backend-domain.herokuapp.com';
+
 const API_BASE_URLS = {
-  PRODUCTS: 'http://localhost:8082/ecommerce/products',
-  CART: 'http://localhost:8081/ecommerce/addToCart',
-  USER: 'http://localhost:8083/ecommerce/user'
+  PRODUCTS: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/products`
+    : (process.env.REACT_APP_PRODUCTS_API_URL || 'http://localhost:8082/ecommerce/products'),
+  CART: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/addToCart`
+    : (process.env.REACT_APP_CART_API_URL || 'http://localhost:8081/ecommerce/addToCart'),
+  USER: isProduction 
+    ? `${PRODUCTION_BACKEND_BASE}/ecommerce/user`
+    : (process.env.REACT_APP_USER_API_URL || 'http://localhost:8083/ecommerce/user')
 };
 
 class ApiService {
@@ -35,11 +44,46 @@ class ApiService {
   }
 
   async getAllProducts() {
-    return this.request(`${API_BASE_URLS.PRODUCTS}/getALlProducts`);
+    const products = await this.request(`${API_BASE_URLS.PRODUCTS}/getALlProducts`);
+    
+    if (products && Array.isArray(products)) {
+      return products.map(product => ({
+        id: product.productID || product.id,
+        name: product.name,
+        price: product.price,
+        rating: product.rating,
+        image: product.imageURL || product.image
+      }));
+    }
+    
+    return products;
   }
 
   async getProductById(productId) {
-    return this.request(`${API_BASE_URLS.PRODUCTS}/search/${productId}`);
+    const product = await this.request(`${API_BASE_URLS.PRODUCTS}/search/${productId}`);
+    
+    if (product) {
+      return {
+        id: product.productID || product.id,
+        name: product.name,
+        price: product.price,
+        rating: product.rating,
+        image: product.imageURL || product.image,
+        review: "1000",
+        emi: "25",
+        delivery: "Wednesday, Aug 18",
+        status: "In stock",
+        soldby: "Irish Electronics",
+        about: [
+          "High-quality smartphone with advanced features",
+          "Water and dust resistant design",
+          "Advanced camera system with multiple lenses",
+          "Secure authentication and privacy features"
+        ]
+      };
+    }
+    
+    return product;
   }
 
   async saveProduct(productData) {

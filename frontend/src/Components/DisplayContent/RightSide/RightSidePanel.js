@@ -14,34 +14,24 @@ function RightSidePanel(props) {
         const fetchProducts = async () => {
             try {
                 setLoading(true);
-                const products = await apiService.getAllProducts();
+                setError(null);
                 
-                if (!products || products.length === 0) {
-                    const defaultProducts = [
-                        { id: "550e8400-e29b-41d4-a716-446655440001", name: "iPhone 10", rating: "4.2", price: "599", image: "https://ik.imagekit.io/amazon123/71i2XhHU3pL._AC_UL640_FMwebp_QL65__bSvBM9yyu9E.webp?updatedAt=1628852293583"},
-                        { id: "550e8400-e29b-41d4-a716-446655440002", name: "iPhone 11", rating: "4.5", price: "699", image: "https://ik.imagekit.io/amazon123/71ZOtNdaZCL._AC_UL640_FMwebp_QL65__mSWkMhTkWnT.webp?updatedAt=1628852292388"},
-                        { id: "550e8400-e29b-41d4-a716-446655440003", name: "iPhone 12", rating: "4.6", price: "799", image: "https://ik.imagekit.io/amazon123/71w3oJ7aWyL._AC_UL640_FMwebp_QL65__vN39lpgzi.webp?updatedAt=1628852294578"},
-                        { id: "550e8400-e29b-41d4-a716-446655440004", name: "iPhone 13", rating: "4.7", price: "899", image: "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"},
-                        { id: "550e8400-e29b-41d4-a716-446655440005", name: "iPhone 12 Pro", rating: "4.6", price: "999", image: "https://ik.imagekit.io/amazon123/71w3oJ7aWyL._AC_UL640_FMwebp_QL65__vN39lpgzi.webp?updatedAt=1628852294578"},
-                        { id: "550e8400-e29b-41d4-a716-446655440006", name: "iPhone 13 Pro", rating: "4.8", price: "1099", image: "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"}
-                    ];
-                    setListOfProducts(defaultProducts);
-                } else {
+                console.log('Fetching products from API...');
+                const products = await apiService.getAllProducts();
+                console.log('API Response:', products);
+                
+                if (products && Array.isArray(products) && products.length > 0) {
+                    console.log('Using database products:', products.length);
                     setListOfProducts(products);
+                } else {
+                    console.log('No products from database, API returned:', products);
+                    setError('No products available from database');
+                    setListOfProducts([]);
                 }
             } catch (error) {
                 console.error('Failed to fetch products:', error);
-                setError('Unable to load product data, please try again later');
-                
-                const defaultProducts = [
-                    { id: "550e8400-e29b-41d4-a716-446655440001", name: "iPhone 10", rating: "4.2", price: "599", image: "https://ik.imagekit.io/amazon123/71i2XhHU3pL._AC_UL640_FMwebp_QL65__bSvBM9yyu9E.webp?updatedAt=1628852293583"},
-                    { id: "550e8400-e29b-41d4-a716-446655440002", name: "iPhone 11", rating: "4.5", price: "699", image: "https://ik.imagekit.io/amazon123/71ZOtNdaZCL._AC_UL640_FMwebp_QL65__mSWkMhTkWnT.webp?updatedAt=1628852292388"},
-                    { id: "550e8400-e29b-41d4-a716-446655440003", name: "iPhone 12", rating: "4.6", price: "799", image: "https://ik.imagekit.io/amazon123/71w3oJ7aWyL._AC_UL640_FMwebp_QL65__vN39lpgzi.webp?updatedAt=1628852294578"},
-                    { id: "550e8400-e29b-41d4-a716-446655440004", name: "iPhone 13", rating: "4.7", price: "899", image: "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"},
-                    { id: "550e8400-e29b-41d4-a716-446655440005", name: "iPhone 12 Pro", rating: "4.6", price: "999", image: "https://ik.imagekit.io/amazon123/71w3oJ7aWyL._AC_UL640_FMwebp_QL65__vN39lpgzi.webp?updatedAt=1628852294578"},
-                    { id: "550e8400-e29b-41d4-a716-446655440006", name: "iPhone 13 Pro", rating: "4.8", price: "1099", image: "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"}
-                ];
-                setListOfProducts(defaultProducts);
+                setError(`API Error: ${error.message}`);
+                setListOfProducts([]);
             } finally {
                 setLoading(false);
             }
@@ -54,7 +44,28 @@ function RightSidePanel(props) {
         return (
             <div className="RightSide__main">
                 <div style={{ textAlign: 'center', padding: '20px' }}>
-                    <p>Loading products...</p>
+                    <p>Loading products from database...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="RightSide__main">
+                <div style={{ textAlign: 'center', padding: '20px', color: 'red' }}>
+                    <p>{error}</p>
+                    <p>Please check if backend services are running.</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (listOfProduct.length === 0) {
+        return (
+            <div className="RightSide__main">
+                <div style={{ textAlign: 'center', padding: '20px' }}>
+                    <p>No products found in database.</p>
                 </div>
             </div>
         );
@@ -62,11 +73,9 @@ function RightSidePanel(props) {
 
     return (
         <div className="RightSide__main">
-            {error && (
-                <div style={{ textAlign: 'center', padding: '10px', color: 'orange' }}>
-                    <p>{error}</p>
-                </div>
-            )}
+            <div style={{ textAlign: 'center', padding: '10px', color: 'green' }}>
+                <p>Showing {listOfProduct.length} products from database</p>
+            </div>
 
             {listOfProduct.map((item) => (
                 <Link key={item.id} to={`/order/${item.id}`}>

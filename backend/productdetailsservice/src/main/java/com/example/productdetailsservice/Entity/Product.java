@@ -5,12 +5,16 @@ import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "products")
 public class Product {
     @Id
     public BigInteger id;
-    public UUID productID;
+    
+    @Field("productID")
+    public String productID;
+    
     public String name;
     public double price;
     public String rating;
@@ -20,7 +24,7 @@ public class Product {
     }
 
     // Constructor with parameters
-    public Product(UUID productID, String name, double price, String rating, String imageURL) {
+    public Product(String productID, String name, double price, String rating, String imageURL) {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -37,11 +41,11 @@ public class Product {
         this.id = id;
     }
 
-    public UUID getProductID() {
+    public String getProductID() {
         return productID;
     }
 
-    public void setProductID(UUID productID) {
+    public void setProductID(String productID) {
         this.productID = productID;
     }
 
