@@ -5,11 +5,15 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 ---
 
 ## Preview
-![App Screenshot](./screenshots/demo.png)
 
 <p align="center">
-  <img src="./screenshots/cart.png" width="300" alt="Shopping Cart" style="margin: 0 10px;" />
+  <img src="./screenshots/demo.png" width="300" alt="Demo" style="margin: 0 10px;" />
+  <img src="./screenshots/display.png" width="300" alt="Display" style="margin: 0 10px;" />
+</p>
+
+<p align="center">
   <img src="./screenshots/order.png" width="300" alt="Order Management" style="margin: 0 10px;" />
+  <img src="./screenshots/cart.png" width="300" alt="Shopping Cart" style="margin: 0 10px;" />
 </p>
 
 *Modern, responsive e-commerce interface with automated deployment pipeline*
@@ -70,13 +74,37 @@ e-commerce-platform/
 
 ---
 
-## Getting Started (Local Setup)
+## Getting Started
+
+### One-click Startup (Recommended)
+
+**Prerequisites:** Docker Desktop must be installed and running
+
+The easiest way to start the entire platform is using the one-click startup script:
+
+```powershell
+# 1. Clone the repository
+git clone https://github.com/YourUsername/e-commerce-platform.git
+cd e-commerce-platform
+
+# 2. One-click startup (Recommended)
+.\start-all.bat
+```
+
+This script will:
+- Build and start all backend services with Docker Compose
+- Initialize databases with sample data
+- Start the React frontend locally
+- Provide all access URLs and management commands
+
+### Local Setup (Alternative)
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/YourUsername/e-commerce-platform.git
 cd e-commerce-platform
 
-# 2. Start backend services with Docker Compose (Recommended)
+# 2. Start backend services with Docker Compose
 cd backend
 docker-compose up --build -d
 
