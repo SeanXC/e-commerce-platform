@@ -3,6 +3,9 @@ name: Backend CI/CD
 on:
   push:
     branches: [main]
+    paths: 
+      - 'backend/**'
+      - '.github/workflows/backend-deploy.yml'
 
 jobs:
   test-build-deploy:
@@ -54,43 +57,96 @@ jobs:
           
       - name: Build and Push Docker Images
         run: |
+          echo "Building Docker images..."
+          
           # Build and push AddToCart service
+          echo "Building AddToCart service..."
           cd backend/addToCart
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-addtocart:${{ github.sha }}
+          echo "AddToCart image pushed successfully"
           
           # Build and push ProductDetails service
+          echo "Building ProductDetails service..."
           cd ../productdetailsservice
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-productdetails:${{ github.sha }}
+          echo "ProductDetails image pushed successfully"
           
           # Build and push UserMetadata service
+          echo "Building UserMetadata service..."
           cd ../usermetadata
           docker build -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:latest \
                        -t ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:${{ github.sha }} .
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:${{ github.sha }}
+          echo "UserMetadata image pushed successfully"
           
       - name: Deploy to Render
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_ADDTOCART_SERVICE_ID: ${{ secrets.RENDER_ADDTOCART_SERVICE_ID }}
+          RENDER_USERMETADATA_SERVICE_ID: ${{ secrets.RENDER_USERMETADATA_SERVICE_ID }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         run: |
-          # Deploy AddToCart service
-          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_ADDTOCART_SERVICE_ID }}/deploys" \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d '{"clearCache": false}'
+          echo "Starting Render deployment..."
           
-          # Deploy UserMetadata service
-          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_USERMETADATA_SERVICE_ID }}/deploys" \
-            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d '{"clearCache": false}'
+          # Check if secrets are set
+          if [ -z "$RENDER_API_KEY" ]; then
+            echo "ERROR: RENDER_API_KEY is not set"
+            exit 1
+          fi
           
-          # Deploy ProductDetails service (if needed)
-          # curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_PRODUCTDETAILS_SERVICE_ID }}/deploys" \
-          #   -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-          #   -H "Content-Type: application/json" \
-          #   -d '{"clearCache": false}'
+          if [ -z "$RENDER_ADDTOCART_SERVICE_ID" ]; then
+            echo "ERROR: RENDER_ADDTOCART_SERVICE_ID is not set"
+            exit 1
+          fi
+          
+          if [ -z "$RENDER_USERMETADATA_SERVICE_ID" ]; then
+            echo "ERROR: RENDER_USERMETADATA_SERVICE_ID is not set"
+            exit 1
+          fi
+          
+          if [ -z "$DOCKER_USERNAME" ]; then
+            echo "ERROR: DOCKER_USERNAME is not set"
+            exit 1
+          fi
+          
+          # Deploy AddToCart service with new image
+          echo "Deploying AddToCart service with image: $DOCKER_USERNAME/ecommerce-addtocart:latest"
+          response=$(curl -s -w "%{http_code}" -X POST "https://api.render.com/v1/services/$RENDER_ADDTOCART_SERVICE_ID/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"clearCache\": false, \"imageUrl\": \"$DOCKER_USERNAME/ecommerce-addtocart:latest\"}")
+          
+          http_code="${response: -3}"
+          if [ "$http_code" -eq 201 ]; then
+            echo "SUCCESS: AddToCart deployment triggered"
+          else
+            echo "ERROR: AddToCart deployment failed with HTTP code: $http_code"
+            echo "Response: ${response%???}"
+          fi
+          
+          # Deploy UserMetadata service with new image
+          echo "Deploying UserMetadata service with image: $DOCKER_USERNAME/ecommerce-usermetadata:latest"
+          response=$(curl -s -w "%{http_code}" -X POST "https://api.render.com/v1/services/$RENDER_USERMETADATA_SERVICE_ID/deploys" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "{\"clearCache\": false, \"imageUrl\": \"$DOCKER_USERNAME/ecommerce-usermetadata:latest\"}")
+          
+          http_code="${response: -3}"
+          if [ "$http_code" -eq 201 ]; then
+            echo "SUCCESS: UserMetadata deployment triggered"
+          else
+            echo "ERROR: UserMetadata deployment failed with HTTP code: $http_code"
+            echo "Response: ${response%???}"
+          fi
+          
+          echo "Deployment process completed"
+          echo "Deployed images:"
+          echo "  AddToCart: $DOCKER_USERNAME/ecommerce-addtocart:latest"
+          echo "  UserMetadata: $DOCKER_USERNAME/ecommerce-usermetadata:latest"
