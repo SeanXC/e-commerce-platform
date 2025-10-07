@@ -23,7 +23,7 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 ## Features
 - Developed a containerized Spring Boot microservices system with Product, Cart, and User services, supporting independent deployment and scaling  
 - Built a modern React SPA frontend with Material-UI, React Router, and Context API for real-time cart updates and product browsing  
-- Integrated MySQL (cart & user data) and MongoDB (product catalog) with Spring Data JPA and MongoDB document storage  
+- Integrated PostgreSQL (cart & user data) and MongoDB (product catalog) with Spring Data JPA and MongoDB document storage  
 - Implemented comprehensive unit and integration testing using JUnit, Mockito, Jest, and React Testing Library  
 - Automated deployment pipeline with Docker containerization, frontend deployed to Vercel, backend to Render, and database on Railway  
 
@@ -43,14 +43,14 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 - JUnit & Mockito for testing  
 
 **Database:**  
-- MySQL 8 (Cart & User services)  
+- PostgreSQL 17 (Cart & User services)  
 - MongoDB 7 (Product catalog)  
 
 **DevOps & Deployment:**  
 - Docker & Docker Compose  
 - Frontend: Vercel deployment  
 - Backend: Automated Docker image build & deployment to Render  
-- Database: Railway (MySQL & MongoDB)  
+- Database: Railway (PostgreSQL & MongoDB)  
 - Automated CI/CD pipeline  
 
 ---
@@ -60,8 +60,8 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 e-commerce-platform/
 ├── backend/                    # Spring Boot Microservices
 │   ├── productdetailsservice/  # Product Service (MongoDB)
-│   ├── addToCart/             # Cart Service (MySQL)  
-│   ├── usermetadata/          # User Service (MySQL)
+│   ├── addToCart/             # Cart Service (PostgreSQL)  
+│   ├── usermetadata/          # User Service (PostgreSQL)
 │   └── docker-compose.yml    # Backend Services Setup
 ├── frontend/                  # React Frontend App
 │   ├── src/Components/        # React Components
@@ -128,9 +128,17 @@ This full-stack e-commerce platform project demonstrates the following skills:
 
 - Microservices Architecture with Spring Boot and RESTful APIs
 - Modern Frontend Development with React Hooks, Context API, and Material-UI
-- Database Integration with MySQL transactional processing and MongoDB document storage
+- Database Integration with PostgreSQL transactional processing and MongoDB document storage
 - Test-Driven Development using JUnit, Mockito, Jest, and React Testing Library
 - Containerization & Deployment with Docker, automated deployment to Vercel (frontend), Render (backend), and Railway (database)
+
+---
+
+## Status Update
+
+**Database Migration Completed:** Migrated from MySQL to PostgreSQL.
+
+**Production Launch:** This e-commerce platform is currently in final testing phase and will be going live soon. Stay tuned for the official launch with full production deployment and enhanced features.
 
 ---
 
