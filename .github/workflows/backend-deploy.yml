@@ -9,14 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:15
         env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: testdb
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: testdb
+          POSTGRES_USER: postgres
         ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+          - 5432:5432
+        options: --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=3
       
       mongodb:
         image: mongo:6
@@ -74,23 +75,22 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/ecommerce-usermetadata:${{ github.sha }}
           
-      # Temporarily commented out Render deployment for Docker testing
-      # - name: Deploy to Render
-      #   run: |
-      #     # Deploy AddToCart service
-      #     curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_ADDTOCART_SERVICE_ID }}/deploys" \
-      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-      #       -H "Content-Type: application/json" \
-      #       -d '{"clearCache": false}'
-      #     
-      #     # Deploy ProductDetails service
-      #     curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_PRODUCTDETAILS_SERVICE_ID }}/deploys" \
-      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-      #       -H "Content-Type: application/json" \
-      #       -d '{"clearCache": false}'
-      #     
-      #     # Deploy UserMetadata service
-      #     curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_USERMETADATA_SERVICE_ID }}/deploys" \
-      #       -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-      #       -H "Content-Type: application/json" \
-      #       -d '{"clearCache": false}'
+      - name: Deploy to Render
+        run: |
+          # Deploy AddToCart service
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_ADDTOCART_SERVICE_ID }}/deploys" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": false}'
+          
+          # Deploy UserMetadata service
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_USERMETADATA_SERVICE_ID }}/deploys" \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": false}'
+          
+          # Deploy ProductDetails service (if needed)
+          # curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_PRODUCTDETAILS_SERVICE_ID }}/deploys" \
+          #   -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          #   -H "Content-Type: application/json" \
+          #   -d '{"clearCache": false}'
