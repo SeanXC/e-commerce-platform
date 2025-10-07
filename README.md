@@ -50,7 +50,7 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 - Docker & Docker Compose  
 - Frontend: Vercel deployment  
 - Backend: Automated Docker image build & deployment to Render  
-- Database: Railway (PostgreSQL & MongoDB)  
+- Database: Render (PostgreSQL & MongoDB)  
 - Automated CI/CD pipeline  
 
 ---
@@ -130,7 +130,7 @@ This full-stack e-commerce platform project demonstrates the following skills:
 - Modern Frontend Development with React Hooks, Context API, and Material-UI
 - Database Integration with PostgreSQL transactional processing and MongoDB document storage
 - Test-Driven Development using JUnit, Mockito, Jest, and React Testing Library
-- Containerization & Deployment with Docker, automated deployment to Vercel (frontend), Render (backend), and Railway (database)
+- Containerization & Deployment with Docker, automated deployment to Vercel (frontend), Render (backend), and Render (database)
 
 ---
 
