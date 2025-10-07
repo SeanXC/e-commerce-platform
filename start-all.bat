@@ -27,7 +27,7 @@ echo Sample data initialized successfully!
 echo.
 echo [4/5] Cleaning user database...
 echo Removing duplicate user records and ensuring data integrity...
-docker exec backend-mysql-usermetadata-1 mysql -u root -ppassword usermetadataDB < backend\usermetadata\init-cleanup.sql
+docker exec -i backend-postgres-usermetadata-1 psql -U postgres -d usermetadataDB < backend\usermetadata\init-cleanup.sql
 echo User database cleanup completed!
 
 echo.
@@ -47,9 +47,9 @@ echo Cart API:     http://localhost:8081/ecommerce/addToCart
 echo User API:     http://localhost:8083/ecommerce/user
 echo.
 echo Database Ports:
-echo MongoDB:      localhost:27017
-echo MySQL Cart:   localhost:3307
-echo MySQL User:   localhost:3308
+echo MongoDB:        localhost:27017
+echo PostgreSQL Cart: localhost:5433
+echo PostgreSQL User: localhost:5434
 echo.
 echo Management Commands:
 echo Stop backend:  docker-compose -f backend/docker-compose.yml down

@@ -73,10 +73,6 @@ function RightSidePanel(props) {
 
     return (
         <div className="RightSide__main">
-            <div style={{ textAlign: 'center', padding: '10px', color: 'green' }}>
-                <p>Showing {listOfProduct.length} products from database</p>
-            </div>
-
             {listOfProduct.map((item) => (
                 <Link key={item.id} to={`/order/${item.id}`}>
                     <Product definition={item} />

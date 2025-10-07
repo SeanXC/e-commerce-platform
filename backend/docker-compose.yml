@@ -4,13 +4,13 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-addtocart:3306/addToCartDB?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'
-      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-addtocart:5432/addToCartDB
+      SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_CLOUD_COMPATIBILITY_VERIFIER_ENABLED: false
     depends_on:
-      mysql-addtocart:
+      postgres-addtocart:
         condition: service_healthy
     networks:
       - ecommerce-network
@@ -33,43 +33,45 @@ services:
     ports:
       - "8083:8083"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-usermetadata:3306/usermetadataDB?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'
-      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-usermetadata:5432/usermetadataDB
+      SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     depends_on:
-      mysql-usermetadata:
+      postgres-usermetadata:
         condition: service_healthy
     networks:
       - ecommerce-network
 
-  mysql-addtocart:
-    image: mysql:8.0
+  postgres-addtocart:
+    image: postgres:15
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: addToCartDB
+      POSTGRES_DB: addToCartDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     ports:
-      - "3307:3306"
+      - "5433:5432"
     volumes:
-      - mysql_addtocart_data:/var/lib/mysql
+      - postgres_addtocart_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       timeout: 20s
       retries: 10
     networks:
       - ecommerce-network
 
-  mysql-usermetadata:
-    image: mysql:8.0
+  postgres-usermetadata:
+    image: postgres:15
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: usermetadataDB
+      POSTGRES_DB: usermetadataDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
     ports:
-      - "3308:3306"
+      - "5434:5432"
     volumes:
-      - mysql_usermetadata_data:/var/lib/mysql
+      - postgres_usermetadata_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       timeout: 20s
       retries: 10
     networks:
@@ -92,8 +94,8 @@ services:
       - ecommerce-network
 
 volumes:
-  mysql_addtocart_data:
-  mysql_usermetadata_data:
+  postgres_addtocart_data:
+  postgres_usermetadata_data:
   mongodb_products_data:
 
 networks:
