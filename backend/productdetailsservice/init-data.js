@@ -41,5 +41,19 @@ db.products.insertMany([
     "price": 1099.0,
     "rating": "4.8",
     "imageURL": "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"
+  },
+  {
+    "productID": "550e8400-e29b-41d4-a716-446655440007",
+    "name": "iPhone 14",
+    "price": 1199.0,
+    "rating": "4.9",
+    "imageURL": "https://ik.imagekit.io/amazon123/71i2XhHU3pL._AC_UL640_FMwebp_QL65__bSvBM9yyu9E.webp?updatedAt=1628852293583"
+  },
+  {
+    "productID": "550e8400-e29b-41d4-a716-446655440008",
+    "name": "iPhone 14 Pro Max",
+    "price": 1399.0,
+    "rating": "5.0",
+    "imageURL": "https://ik.imagekit.io/amazon123/51PuFBgBK4L._AC_UL640_FMwebp_QL65__3iZl6oRR-.webp?updatedAt=1628852291461"
   }
 ]);
