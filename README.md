@@ -25,7 +25,7 @@ A modern, scalable e-commerce platform built with React frontend and Spring Boot
 - Built a modern React SPA frontend with Material-UI, React Router, and Context API for real-time cart updates and product browsing  
 - Integrated PostgreSQL (cart & user data) and MongoDB (product catalog) with Spring Data JPA and MongoDB document storage  
 - Implemented comprehensive unit and integration testing using JUnit, Mockito, Jest, and React Testing Library  
-- Automated deployment pipeline with Docker containerization, frontend deployed to Vercel, backend to Render, and database on Railway  
+- Automated deployment pipeline with Docker containerization, frontend deployed to Vercel, backend to Render, and database on Render  
 
 ---
 
@@ -138,7 +138,7 @@ This full-stack e-commerce platform project demonstrates the following skills:
 
 **Database Migration Completed:** Migrated from MySQL to PostgreSQL.
 
-**Production Launch:** This e-commerce platform is currently in final testing phase and will be going live soon. Stay tuned for the official launch with full production deployment and enhanced features.
+**Production Launch:** This e-commerce platform is currently in final testing phase and will be going live soon.
 
 ---
 
